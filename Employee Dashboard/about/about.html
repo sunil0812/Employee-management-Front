@@ -5,6 +5,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OTP Verification</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+    <script>
+        // Get token from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        if (token) {
+            try {
+                const decoded = jwt_decode(token);
+                console.log("Decoded JWT:", decoded); // For debugging
+
+                // Example: Use the decoded values
+                const phone = decoded.phone
+
+                // Store for future use (e.g., in localStorage or send to backend)
+                localStorage.setItem('admin_token', token);
+                localStorage.setItem('admin_phone', phone);
+
+                // Optional: Autofill form fields if needed
+                document.getElementById("phoneField").value = phone;
+
+            } catch (err) {
+                console.error("Invalid token", err);
+            }
+        } else {
+            console.warn("Token not found in URL");
+        }
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
