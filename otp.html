@@ -24,9 +24,6 @@
                 localStorage.setItem('admin_token', token);
                 localStorage.setItem('admin_phone', phone);
 
-                // Optional: Autofill form fields if needed
-                document.getElementById("phoneField").value = phone;
-
             } catch (err) {
                 console.error("Invalid token", err);
             }
