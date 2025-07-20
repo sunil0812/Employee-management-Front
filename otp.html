@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTP Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f8fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .otp-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+        }
+        
+        .otp-container h2 {
+            margin-bottom: 10px;
+        }
+        
+        .otp-container p {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+        
+        .otp-input-box {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+            box-sizing: border-box;
+        }
+        
+        .otp-input-box:focus {
+            border-color: #4a90e2;
+        }
+        
+        .verify-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        .verify-btn:hover {
+            background: #3c7dd9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="otp-container">
+        <h2>OTP Verification</h2>
+        <p>Enter the 6-digit OTP sent to your phone</p>
+        <input type="text" maxlength="6" class="otp-input-box" placeholder="Enter OTP" />
+        <button class="verify-btn">Verify</button>
+    </div>
+</body>
+
+</html>
