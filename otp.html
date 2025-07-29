@@ -24,6 +24,30 @@
                 localStorage.setItem('admin_token', token);
                 localStorage.setItem('admin_phone', phone);
 
+                window.history.replaceState({}, document.title, window.location.pathname);
+
+                fetch('localhost:8080/register/send-otp', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            phone: phone
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Failed to send OTP");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("OTP sent successfully:", data);
+                        // You can redirect or show confirmation here if needed
+                    })
+                    .catch(error => {
+                        console.error("Error sending OTP:", error);
+                    });
             } catch (err) {
                 console.error("Invalid token", err);
             }
