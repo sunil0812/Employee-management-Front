@@ -42,10 +42,6 @@
                         console.log("response ok", response)
                         return response.json();
                     })
-                    .then(data => {
-                        console.log("OTP sent successfully:", data);
-                        // You can redirect or show confirmation here if needed
-                    })
                     .catch(error => {
                         console.error("Error sending OTP:", error);
                     });
