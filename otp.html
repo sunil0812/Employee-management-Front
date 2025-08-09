@@ -18,7 +18,7 @@
                 console.log("Decoded JWT:", decoded); // For debugging
 
                 // Example: Use the decoded values
-                const phone = decoded.phoneNo;
+                const phone = decoded.phone;
 
                 // Store for future use (e.g., in localStorage or send to backend)
                 localStorage.setItem('admin_token', token);
@@ -39,8 +39,12 @@
                         if (!response.ok) {
                             throw new Error("Failed to send OTP");
                         }
-                        console.log("response ok", response)
+                        console.log("response ok")
                         return response.json();
+                    })
+                    .then(data => {
+                        console.log("OTP sent successfully:", data);
+                        // You can redirect or show confirmation here if needed
                     })
                     .catch(error => {
                         console.error("Error sending OTP:", error);
