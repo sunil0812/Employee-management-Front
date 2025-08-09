@@ -26,7 +26,7 @@
 
                 window.history.replaceState({}, document.title, window.location.pathname);
 
-                fetch('localhost:8080/register/send-otp', {
+                fetch('http://localhost:8080/register/send-otp', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
