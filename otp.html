@@ -39,8 +39,7 @@ console.log(phone)
                         if (!response.ok) {
                             throw new Error("Failed to send OTP");
                         }
-                        console.log("response ok")
-                        return response.json();
+                        return response.text();
                     })
                     .then(data => {
                         console.log("OTP sent successfully:", data);
