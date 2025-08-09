@@ -39,6 +39,7 @@
                         if (!response.ok) {
                             throw new Error("Failed to send OTP");
                         }
+                        console.log("response ok", response)
                         return response.json();
                     })
                     .then(data => {
