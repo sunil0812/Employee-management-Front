@@ -159,7 +159,7 @@
                     .then(msg => {
                         document.getElementById('otpContainer').style.display = 'none';
 
-                        if (msg.toLowerCase().includes("successfully")) {
+                        if (msg.toLowerCase().includes("SUCCESS")) {
                             showMessage(msg, "success");
                         } else {
                             showMessage(msg, "error");
