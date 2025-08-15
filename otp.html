@@ -22,10 +22,6 @@
         }
         /* Hide arrows for Firefox */
         
-        .otp-no-spin {
-            -moz-appearance: textfield;
-        }
-        
         .otp-container {
             background: white;
             padding: 30px;
@@ -72,6 +68,7 @@
         
         #messageContainer {
             display: none;
+            color: green;
             width: 600px;
             height: 350px;
             background-color: white;
@@ -87,11 +84,10 @@
             padding: 20px;
         }
         
-        .message-box.success {
-            color: green;
-        }
-        
-        .message-box.error {
+        #inlineOtpMessage {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
             color: red;
         }
     </style>
@@ -102,6 +98,7 @@
         <h2>Enter OTP</h2>
         <input type="number" maxlength="6" id="otpInput" placeholder="Enter OTP" class="otp-input-box otp-no-spin" />
         <button class="verify-btn" onclick="verifyOtp()">Verify OTP</button>
+        <div id="inlineOtpMessage" style="display:none;"></div>
     </div>
 
     <div id="messageContainer" class="message-box" style="display: none;"></div>
@@ -109,7 +106,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
     <script>
         const otpInput = document.getElementById("otpInput");
-
+        let maxAttempts = 3;
+        let attemptsLeft = maxAttempts;
         otpInput.addEventListener("input", function() {
             this.value = this.value.replace(/\D/g, "").slice(0, 6);
         });
@@ -160,29 +158,36 @@
                             phone: phone,
                             otp: otp
                         })
-                    }).then(response => response.text()) // read the string message directly
+                    }).then(response => response.text())
                     .then(msg => {
-                        document.getElementById('otpContainer').style.display = 'none';
-
                         if (msg.includes("SUCCESS")) {
+                            document.getElementById('otpContainer').style.display = 'none';
                             showMessage(msg, "success");
                         } else {
-                            showMessage(msg, "error");
+                            attemptsLeft--;
+                            if (attemptsLeft > 0) {
+                                showInlineMessage(`${msg} You have ${attemptsLeft} attempt(s) remaining.`);
+                            } else {
+                                showInlineMessage("Maximum attempts reached. Please request a new OTP.");
+                                document.getElementById('otpInput').disabled = true;
+                                document.getElementById('verifyBtn').disabled = true;
+                            }
                         }
                     }).catch(err => {
                         showMessage("Error verifying OTP: " + err.message, "error");
                     });
             }
 
-            // Show messages in a styled card
             function showMessage(message, type) {
                 const container = document.getElementById("messageContainer");
                 container.textContent = message;
-                container.style.display = "flex"; // so text stays centered
+                container.style.display = "flex";
+            }
 
-                // Keep the base "message-box" class
-                container.classList.remove("success", "error");
-                container.classList.add("message-box", type);
+            function showInlineMessage(message) {
+                const inlineMsg = document.getElementById("inlineOtpMessage");
+                inlineMsg.textContent = message;
+                inlineMsg.style.display = "block";
             }
 
         } else {
