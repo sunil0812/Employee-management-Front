@@ -1,61 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OTP Verification</title>
-
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
-    <script>
-        // Get token from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-
-        if (token) {
-            try {
-                const decoded = jwt_decode(token);
-                console.log("Decoded JWT:", decoded); // For debugging
-
-                // Example: Use the decoded values
-                const phone = decoded.phone;
-console.log(phone)
-                // Store for future use (e.g., in localStorage or send to backend)
-                localStorage.setItem('admin_token', token);
-                localStorage.setItem('admin_phone', phone);
-
-                window.history.replaceState({}, document.title, window.location.pathname);
-
-                fetch('http://localhost:8080/register/send-otp', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            phone: phone
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("Failed to send OTP");
-                        }
-                        return response.text();
-                    })
-                    .then(data => {
-                        console.log("OTP sent successfully:", data);
-                        // You can redirect or show confirmation here if needed
-                    })
-                    .catch(error => {
-                        console.error("Error sending OTP:", error);
-                    });
-            } catch (err) {
-                console.error("Invalid token", err);
-            }
-        } else {
-            console.warn("Token not found in URL");
-        }
-    </script>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,6 +12,18 @@ console.log(phone)
             justify-content: center;
             height: 100vh;
             margin: 0;
+        }
+        /* Hide arrows for Chrome, Safari, Edge, and Opera */
+        
+        .otp-no-spin::-webkit-inner-spin-button,
+        .otp-no-spin::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Hide arrows for Firefox */
+        
+        .otp-no-spin {
+            -moz-appearance: textfield;
         }
         
         .otp-container {
@@ -77,12 +36,6 @@ console.log(phone)
         }
         
         .otp-container h2 {
-            margin-bottom: 10px;
-        }
-        
-        .otp-container p {
-            font-size: 14px;
-            color: #777;
             margin-bottom: 20px;
         }
         
@@ -116,17 +69,120 @@ console.log(phone)
         .verify-btn:hover {
             background: #3c7dd9;
         }
+        
+        #messageContainer {
+            display: none;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
 </head>
 
 <body>
-
     <div class="otp-container">
-        <h2>OTP Verification</h2>
-        <p>Enter the 6-digit OTP sent to your phone</p>
-        <input type="text" maxlength="6" class="otp-input-box" placeholder="Enter OTP" />
-        <button class="verify-btn">Verify</button>
+        <h2>Enter OTP</h2>
+        <input type="number" maxlength="6" id="otpInput" placeholder="Enter OTP" class="otp-input-box otp-no-spin" />
+        <button class="verify-btn" onclick="verifyOtp()">Verify OTP</button>
+        <div id="messageContainer"></div>
     </div>
+
+    <div id="messageContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+    <script>
+        const otpInput = document.getElementById("otpInput");
+
+        otpInput.addEventListener("input", function() {
+            this.value = this.value.replace(/\D/g, "").slice(0, 6);
+        });
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        if (token) {
+            const decoded = jwt_decode(token);
+            console.log("Decoded JWT:", decoded);
+
+            const phone = decoded.phone;
+
+            localStorage.setItem('admin_token', token);
+            localStorage.setItem('admin_phone', phone);
+
+            window.history.replaceState({}, document.title, window.location.pathname);
+
+            // Send OTP automatically when page loads
+            window.onload = function() {
+                fetch('http://localhost:8080/register/send-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phone: phone
+                    })
+                }).then(response => {
+                    if (!response.ok) {
+                        return response.text().then(errMsg => {
+                            showMessage(errMsg || "Failed to send OTP", "error");
+                        });
+                    }
+                }).catch(err => {
+                    showMessage("Error sending OTP: " + err.message, "error");
+                });
+            }
+
+            function verifyOtp() {
+                const otp = document.getElementById('otpInput').value;
+
+                fetch('http://localhost:8080/register/verify-otp', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            phone: phone,
+                            otp: otp
+                        })
+                    }).then(response => response.text())
+                    .then(msg => {
+                        if (msg.toLowerCase().includes("SUCCESS:")) {
+                            showMessage(msg, "success");
+                        } else {
+                            showMessage(msg, "error");
+                        }
+                    }).catch(err => {
+                        showMessage("Error verifying OTP: " + err.message, "error");
+                    });
+            }
+
+            // Show messages in a styled card
+            function showMessage(message, type) {
+                const container = document.getElementById("messageContainer");
+                container.textContent = message;
+                container.className = type;
+                container.style.display = "block";
+            }
+
+        } else {
+            console.warn("Token not found in URL");
+        }
+    </script>
+
+
+
 </body>
 
 </html>
