@@ -157,7 +157,7 @@
                         },
                         body: JSON.stringify({
                             phone: phone,
-                            otp: otp
+                            otp: "123455"
                         })
                     }).then(response => response.text()) // read the string message directly
                     .then(msg => {
@@ -177,8 +177,11 @@
             function showMessage(message, type) {
                 const container = document.getElementById("messageContainer");
                 container.textContent = message;
-                container.className = type;
-                container.style.display = "block";
+                container.style.display = "flex"; // so text stays centered
+
+                // Keep the base "message-box" class
+                container.classList.remove("success", "error");
+                container.classList.add("message-box", type);
             }
 
         } else {
