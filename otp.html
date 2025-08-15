@@ -97,7 +97,7 @@
     <div class="otp-container" id="otpContainer">
         <h2>Enter OTP</h2>
         <input type="number" maxlength="6" id="otpInput" placeholder="Enter OTP" class="otp-input-box otp-no-spin" />
-        <button class="verify-btn" onclick="verifyOtp()">Verify OTP</button>
+        <button class="verify-btn" id="verifyBtn" onclick="verifyOtp()">Verify OTP</button>
         <div id="inlineOtpMessage" style="display:none;"></div>
     </div>
 
@@ -170,6 +170,7 @@
                             } else {
                                 showInlineMessage("Maximum attempts reached. Please request a new OTP.");
                                 document.getElementById('otpInput').disabled = true;
+                                document.getElementById('verifyBtn').disabled = true;
                             }
                         }
                     }).catch(err => {
