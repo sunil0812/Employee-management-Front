@@ -138,10 +138,12 @@
                 }).then(response => {
                     if (!response.ok) {
                         return response.text().then(errMsg => {
-                            showMessage(errMsg || "Failed to send OTP", "error");
+                            document.getElementById('otpContainer').style.display = 'none';
+                            showMessage("Failed to send OTP", "error");
                         });
                     }
                 }).catch(err => {
+                    document.getElementById('otpContainer').style.display = 'none';
                     showMessage("Error sending OTP: " + err.message, "error");
                 });
             }
@@ -168,12 +170,13 @@
                             if (attemptsLeft > 0) {
                                 showInlineMessage(`${msg} You have ${attemptsLeft} attempt(s) remaining.`);
                             } else {
-                                showInlineMessage("Maximum attempts reached. Please request a new OTP.");
+                                showInlineMessage("Maximum attempts reached. Contact Admin.");
                                 document.getElementById('otpInput').disabled = true;
                                 document.getElementById('verifyBtn').disabled = true;
                             }
                         }
                     }).catch(err => {
+                        document.getElementById('otpContainer').style.display = 'none';
                         showMessage("Error verifying OTP: " + err.message, "error");
                     });
             }
