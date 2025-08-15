@@ -164,7 +164,7 @@
                     .then(msg => {
                         document.getElementById('otpContainer').style.display = 'none';
 
-                        if (msg.toLowerCase().includes("SUCCESS")) {
+                        if (msg.includes("SUCCESS")) {
                             showMessage(msg, "success");
                         } else {
                             showMessage(msg, "error");
@@ -189,9 +189,6 @@
             console.warn("Token not found in URL");
         }
     </script>
-
-
-
 </body>
 
 </html>
