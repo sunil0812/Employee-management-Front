@@ -156,9 +156,11 @@
                             phone: phone,
                             otp: otp
                         })
-                    }).then(response => response.text())
+                    }).then(response => response.text()) // read the string message directly
                     .then(msg => {
-                        if (msg.toLowerCase().includes("SUCCESS:")) {
+                        document.getElementById('otpContainer').style.display = 'none';
+
+                        if (msg.toLowerCase().includes("successfully")) {
                             showMessage(msg, "success");
                         } else {
                             showMessage(msg, "error");
