@@ -218,6 +218,7 @@
                     case "error":
                         container.style.color = "red";
                         icon.textContent = "✖";
+                        setTimeout(() => container.classList.add("show"), 50);
                         break;
                     default:
                         container.style.color = "green";
