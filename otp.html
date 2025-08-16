@@ -143,7 +143,7 @@
             const decoded = jwt_decode(token);
             console.log("Decoded JWT:", decoded);
 
-            const phone = decoded.phone;
+            const phone = decoded.phoneNo;
 
             localStorage.setItem('admin_token', token);
             localStorage.setItem('admin_phone', phone);
@@ -217,6 +217,7 @@
 
                 // Reset old state
                 container.classList.remove("show", "error", "success");
+
                 const displayMessage = message.includes(":") ?
                     message.split(":")[1].trim() :
                     message;
