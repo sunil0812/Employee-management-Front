@@ -209,20 +209,39 @@
 
             function showMessage(message, type) {
                 const container = document.getElementById("messageContainer");
-                container.textContent = message;
-                container.style.display = "flex";
+                const icon = document.getElementById("messageIcon");
+                const text = document.getElementById("messageText");
 
-                container.style.color = "";
+                // Reset old state
+                container.classList.remove("show", "error", "success");
 
+                // Update message text
+                text.textContent = message;
+
+                // Switch-case for type
                 switch (type) {
                     case "error":
-                        container.style.color = "red";
+                        container.classList.add("error");
                         icon.textContent = "✖";
-                        setTimeout(() => container.classList.add("show"), 50);
+                        icon.style.color = "red";
+                        break;
+                    case "success":
+                        container.classList.add("success");
+                        icon.textContent = "✔";
+                        icon.style.color = "green";
                         break;
                     default:
-                        container.style.color = "green";
+                        container.classList.add("info");
+                        icon.textContent = "ℹ";
+                        icon.style.color = "blue";
+                        break;
                 }
+
+                // Show the box
+                container.style.display = "flex";
+
+                // Trigger animation
+                setTimeout(() => container.classList.add("show"), 50);
             }
 
             function showInlineMessage(message) {
