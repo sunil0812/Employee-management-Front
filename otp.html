@@ -193,6 +193,16 @@
                 const container = document.getElementById("messageContainer");
                 container.textContent = message;
                 container.style.display = "flex";
+
+                container.style.color = "";
+
+                switch (type) {
+                    case "error":
+                        container.style.color = "red";
+                        break;
+                    default:
+                        container.style.color = "green";
+                }
             }
 
             function showInlineMessage(message) {
