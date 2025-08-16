@@ -188,7 +188,7 @@
                             document.getElementById('otpContainer').style.display = 'none';
                             showMessage(msg, "success");
                         } else {
-                            if (msg.includes("INVALID")) {
+                            if (msg.includes("EXPIRED")) {
                                 document.getElementById('otpContainer').style.display = 'none';
                                 showMessage(msg, "error");
                             }
