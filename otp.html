@@ -217,9 +217,11 @@
 
                 // Reset old state
                 container.classList.remove("show", "error", "success");
-
+                const displayMessage = message.includes(":") ?
+                    message.split(":")[1].trim() :
+                    message;
                 // Update message text
-                text.textContent = message;
+                text.textContent = displayMessage;
 
                 // Switch-case for type
                 switch (type) {
