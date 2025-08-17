@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register Your Company – Admin Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            /* Palette inspired by Headroom-style clarity */
+            --bg: #0b0d12;
+            --surface: #0f1320;
+            --card: #12172a;
+            --muted: #8b93a7;
+            --text: #e8ecf6;
+            --primary: #6d8cff;
+            /* CTA */
+            --primary-600: #5a76e6;
+            --primary-700: #4a63c7;
+            --accent: #00d3a7;
+            /* subtle accents */
+            --ring: rgba(109, 140, 255, 0.45);
+            --success: #1ed199;
+            --danger: #ff6b6b;
+            --shadow: 0 20px 40px rgba(6, 10, 25, 0.35);
+            --radius-2xl: 20px;
+            --radius-xl: 16px;
+            --radius-lg: 12px;
+            --radius-md: 10px;
+            --container: 1200px;
+            --space-1: .25rem;
+            /* 4px */
+            --space-2: .5rem;
+            /* 8px */
+            --space-3: .75rem;
+            /* 12px */
+            --space-4: 1rem;
+            /* 16px */
+            --space-5: 1.25rem;
+            /* 20px */
+            --space-6: 1.5rem;
+            /* 24px */
+            --space-7: 2rem;
+            /* 32px */
+            --space-8: 2.5rem;
+            /* 40px */
+            --space-9: 3rem;
+            /* 48px */
+        }
+        
+        html {
+            scroll-behavior: smooth
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(1200px 600px at 10% -10%, #1a2040 0%, transparent 60%), radial-gradient(1200px 600px at 90% 0%, #0f1c2f 0%, transparent 50%), var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: var(--container);
+            margin-inline: auto;
+            padding-inline: var(--space-7)
+        }
+        /* Header */
+        
+        .header {
+            position: sticky;
+            top: 0;
+            backdrop-filter: saturate(140%) blur(8px);
+            background: linear-gradient(180deg, rgba(11, 13, 18, 0.8) 0%, rgba(11, 13, 18, 0.35) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            z-index: 50
+        }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px
+        }
+        
+        .brand {
+            display: flex;
+            gap: var(--space-3);
+            align-items: center;
+            font-weight: 800;
+            letter-spacing: 0.2px
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(109, 140, 255, 0.12);
+            color: #cfe0ff;
+            border: 1px solid rgba(109, 140, 255, 0.25);
+            padding: .35rem .6rem;
+            border-radius: 999px;
+            font-size: .75rem
+        }
+        
+        .primary-btn {
+            appearance: none;
+            border: 0;
+            cursor: pointer;
+            font-weight: 700;
+            letter-spacing: .2px;
+            background-color: #386aff;
+            padding: .85rem 1.1rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 24px rgba(109, 140, 255, .35);
+            /* Indigo → Blue */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            background: linear-gradient(270deg, #3b32ee, #044bf0d2, #4184f0);
+            background-size: 600% 600%;
+            /* makes gradient "larger" to allow animation */
+            transition: all 0.3s ease;
+        }
+        
+        .primary-btn:hover {
+            animation: gradient-rotate 5s linear infinite;
+            transform: translateY(-1px);
+            box-shadow: 0 16px 28px rgba(88, 123, 251, 0.4)
+        }
+        
+        @keyframes gradient-rotate {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        /* Hero */
+        
+        .hero {
+            padding-block: clamp(72px, 8vw, 120px)
+        }
+        
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: var(--space-9)
+        }
+        
+        .hero h1 {
+            font-size: clamp(2rem, 3.8vw, 3.25rem);
+            line-height: 1.15;
+            margin: 0
+        }
+        
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #cde9ff;
+            background: linear-gradient(90deg, rgba(0, 211, 167, .18), rgba(109, 140, 255, .18));
+            border: 1px solid rgba(255, 255, 255, .12);
+            padding: .4rem .7rem;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: .82rem
+        }
+        
+        .eyebrow svg {
+            opacity: .9
+        }
+        
+        .hero p {
+            color: var(--muted);
+            margin: var(--space-6) 0 var(--space-7)
+        }
+        
+        .hero-card {
+            background: linear-gradient(180deg, rgba(18, 23, 42, 0.9), rgba(13, 18, 34, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow)
+        }
+        /* Features */
+        
+        .features {
+            padding-block: var(--space-9)
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-7)
+        }
+        
+        .feature {
+            background: linear-gradient(180deg, rgba(18, 23, 42, 0.6), rgba(12, 16, 30, 0.7));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: var(--space-6);
+            border-radius: var(--radius-xl)
+        }
+        
+        .feature h3 {
+            margin: .25rem 0 .25rem
+        }
+        
+        .feature p {
+            color: var(--muted);
+            margin: 0
+        }
+        /* Form */
+        
+        .form-card {
+            background: linear-gradient(180deg, rgba(18, 23, 42, 1), rgba(14, 18, 32, 1));
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow)
+        }
+        
+        .form-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6)
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-6)
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: .9rem;
+            margin-bottom: .4rem
+        }
+        
+        .hint {
+            font-size: .8rem;
+            color: var(--muted);
+            margin-top: .35rem
+        }
+        
+        input,
+        textarea {
+            width: 100%;
+            background: #0d1326;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-lg);
+            padding: .9rem 1rem;
+            outline: none;
+            transition: box-shadow .15s ease, border-color .15s ease
+        }
+        
+        textarea {
+            min-height: 96px;
+            resize: vertical
+        }
+        
+        input:focus,
+        textarea:focus {
+            box-shadow: 0 0 0 4px var(--ring);
+            border-color: var(--primary)
+        }
+        
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-6)
+        }
+        
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: var(--space-7)
+        }
+        
+        .subtle {
+            color: var(--muted);
+            font-size: .85rem
+        }
+        
+        .upload {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: .75rem;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.02)
+        }
+        
+        .cta {
+            display: flex;
+            gap: var(--space-4);
+            align-items: center
+        }
+        
+        .ghost-btn {
+            appearance: none;
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: .85rem 1.1rem;
+            border-radius: 12px;
+            font-weight: 700
+        }
+        /* Footer */
+        
+        footer {
+            padding-block: var(--space-9);
+            color: var(--muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin-top: var(--space-9)
+        }
+        /* Responsive */
+        
+        @media (max-width: 980px) {
+            .hero-grid {
+                grid-template-columns: 1fr
+            }
+        }
+        
+        @media (max-width: 840px) {
+            .feature-grid {
+                grid-template-columns: 1fr
+            }
+            .form-grid,
+            .two-col {
+                grid-template-columns: 1fr
+            }
+            .actions {
+                flex-direction: column;
+                gap: var(--space-4);
+                align-items: stretch
+            }
+            .cta {
+                justify-content: space-between
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav">
+            <div class="brand" aria-label="Product brand">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4Z" fill="url(#g)"/>
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6d8cff"/><stop offset="1" stop-color="#00d3a7"/>
+            </linearGradient>
+          </defs>
+        </svg>
+                <span>Employee Management Portal</span>
+            </div>
+            <a class="primary-btn" href="#register" style=" text-decoration: none;">Register Company</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div>
+                <span class="eyebrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm-1 15-4-4 1.41-1.41L11 13.17l5.59-5.59L18 9l-7 8Z" fill="#cde9ff"/></svg>
+          Fast, secure onboarding
+        </span>
+                <h1>Register your company and start managing teams in minutes</h1>
+                <p>Modern admin tooling with role-based access, attendance, and vendor onboarding. Built for growing companies that value speed and security.</p>
+                <div class="cta">
+                    <a class="primary-btn" style=" text-decoration: none;" href=" #register " aria-label="Scroll to registration form ">Register Your Company</a>
+                    <button class="ghost-btn " type="button ">Book a demo</button>
+                </div>
+            </div>
+
+            <aside class="hero-card " aria-label="Highlights ">
+                <div class="two-col ">
+                    <div>
+                        <h3 style="margin:0 ">Why admins choose us</h3>
+                        <ul style="margin:.75rem 0 0; padding-left:1.1rem; color:var(--muted) ">
+                            <li>Role-based access with audit trails</li>
+                            <li>Lightning-fast onboarding flows</li>
+                            <li>Built-in email/SMS verification</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="margin:0 ">Security at core</h3>
+                        <ul style="margin:.75rem 0 0; padding-left:1.1rem; color:var(--muted) ">
+                            <li>Encrypted at rest & in transit</li>
+                            <li>Granular permission controls</li>
+                            <li>GDPR-ready data management</li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Registration Form -->
+    <section id="register " class="container " aria-label="Company registration ">
+        <div class="form-card ">
+            <div class="form-title ">
+                <div>
+                    <h2 style="margin:0 ">Register Your Company</h2>
+                    <p class="subtle " style="margin:.35rem 0 0 ">Create your admin account and company profile. No credit card required.</p>
+                </div>
+                <span class="badge ">Secure • Encrypted</span>
+            </div>
+
+            <form class="form-grid " action="# " method="post " novalidate>
+                <!-- Company Details -->
+                <div>
+                    <label for="companyName ">Company Name</label>
+                    <input id="companyName " name="companyName " type="text " placeholder="Acme Pvt Ltd " required />
+                    <p class="hint ">Your registered business or trading name.</p>
+                </div>
+                <div>
+                    <label for="companyEmail ">Company Email</label>
+                    <input id="companyEmail " name="companyEmail " type="email " placeholder="hello@acme.com " inputmode="email " required />
+                    <p class="hint ">Use your official domain email for faster verification.</p>
+                </div>
+
+                <div>
+                    <label for="companyPhone ">Company Phone</label>
+                    <input id="companyPhone " name="companyPhone " type="tel " placeholder="+91 98765 43210 " inputmode="tel " pattern="^[+0-9\s-]{8,}$ " />
+                </div>
+                <div>
+                    <label for="companyAddress ">Company Address</label>
+                    <textarea id="companyAddress " name="companyAddress " placeholder="Street, City, State, PIN "></textarea>
+                </div>
+
+                <!-- Admin Details -->
+                <div>
+                    <label for="adminName ">Admin Name</label>
+                    <input id="adminName " name="adminName " type="text " placeholder="Sunil Kumar " required />
+                </div>
+                <div>
+                    <label for="adminEmail ">Admin Email</label>
+                    <input id="adminEmail " name="adminEmail " type="email " placeholder="sunil@acme.com " inputmode="email " required />
+                </div>
+
+                <div>
+                    <label for="password ">Password</label>
+                    <input id="password " name="password " type="password " minlength="8 " placeholder="•••••••• " required />
+                    <p class="hint ">Min 8 chars. Use upper/lowercase, numbers & symbols.</p>
+                </div>
+                <div>
+                    <label for="confirmPassword ">Confirm Password</label>
+                    <input id="confirmPassword " name="confirmPassword " type="password " minlength="8 " placeholder="•••••••• " required />
+                </div>
+
+                <div class="actions " style="grid-column:1 / -1 ">
+                    <span class="subtle ">Already have an account? <a href="# " style="color:var(--primary) ">Sign in</a></span>
+                    <button class="primary-btn " type="submit ">Create Company</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        // Set current year (no external deps)
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>
