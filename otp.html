@@ -144,7 +144,7 @@
             console.log("Decoded JWT:", decoded);
 
             const phone = decoded.phoneNo;
-
+            const name = decoded.name;
             localStorage.setItem('admin_token', token);
             localStorage.setItem('admin_phone', phone);
 
@@ -183,7 +183,8 @@
                         },
                         body: JSON.stringify({
                             phone: phone,
-                            otp: otp
+                            otp: otp,
+                            name: name
                         })
                     }).then(response => response.text())
                     .then(msg => {
