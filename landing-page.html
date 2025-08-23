@@ -27,7 +27,7 @@
                 const message = await res.text(); // plain string response
                 errorEl.textContent = ""; // clear old error
 
-                if (message.includes("Validated ")) {
+                if (!message.includes("Validated ")) {
                     // API returned an error message
                     errorEl.textContent = message;
                 }
