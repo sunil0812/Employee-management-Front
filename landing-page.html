@@ -24,13 +24,12 @@
                     })
                 });
                 console.log("--> " + await res.text());
-                const data = await res.text();
-                const errorEl = document.getElementById(field + "Error");
+                const message = await res.text(); // plain string response
+                errorEl.textContent = ""; // clear old error
 
-                errorEl.textContent = ""; // clear previous
-
-                if (!data.valid) {
-                    errorEl.textContent = data.message || `${field} is invalid`;
+                if (message.includes("Validated ")) {
+                    // API returned an error message
+                    errorEl.textContent = message;
                 }
             } catch (err) {
                 console.error("Validation failed", err);
@@ -116,6 +115,13 @@
             padding-inline: var(--space-7)
         }
         /* Header */
+        
+        .error {
+            color: #ff6b6b;
+            /* red error color */
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
         
         .header {
             position: sticky;
