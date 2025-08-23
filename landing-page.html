@@ -24,7 +24,7 @@
                     })
                 });
                 console.log("--> " + await res.text());
-                const data = await res.json();
+                const data = await res.text();
                 const errorEl = document.getElementById(field + "Error");
 
                 errorEl.textContent = ""; // clear previous
