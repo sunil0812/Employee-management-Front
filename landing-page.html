@@ -664,7 +664,7 @@
 
                 <div>
                     <label for="phone ">Admin Phone</label>
-                    <input id="adminPhone" name="adminPhone" type="tel " placeholder="+91 98765 43210 " inputmode="tel " pattern="^[0-9]{10}$" required onblur="validateField('phone', this.value)" />
+                    <input id="adminPhone" name="adminPhone" type="tel " placeholder="9876543210 " inputmode="tel " pattern="^[0-9]{10}$" maxlength="10" required onblur="validateField('phone', this.value)" />
                     <p class="error" id="phoneError"></p>
                 </div>
                 <div>
