@@ -614,6 +614,7 @@
                     <label for="companyName ">Company Name</label>
                     <input id="companyName " name="companyName " type="text " placeholder="Acme Pvt Ltd " required onblur="validateField('companyName', this.value)" />
                     <p class="hint ">Your registered business or trading name.</p>
+                    <p class="error" id="adminNameError"></p>
                 </div>
                 <div>
                     <label for="companyEmail ">Company Email</label>
@@ -658,11 +659,13 @@
                 <div>
                     <label for="adminEmail ">Admin Email</label>
                     <input id="adminEmail " name="adminEmail " type="email " placeholder="sunil@acme.com " inputmode="email " required onblur="validateField('email', this.value)" />
+                    <p class="error" id="adminEmailError"></p>
                 </div>
 
                 <div>
                     <label for="phone ">Admin Phone</label>
                     <input id="adminPhone " name="adminPhone " type="tel " placeholder="+91 98765 43210 " inputmode="tel " pattern="^[+0-9\s-]{8,}$ " required onblur="validateField('phone', this.value)" />
+                    <p class="error" id="adminPhoneError"></p>
                 </div>
                 <div>
                     <label for="dob">Date of Birth</label>
