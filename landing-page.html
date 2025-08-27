@@ -11,7 +11,7 @@
     <script>
         async function validateField(field, value) {
             if (!value) return;
-
+            const errorEl = document.getElementById(field + "Error");
             try {
                 const res = await fetch("http://localhost:8080/register/validate-details", {
                     method: "PUT",
@@ -24,11 +24,11 @@
                     })
                 });
                 console.log("--> " + await res.text());
-                const message = await res.text(); // plain string response
-                errorEl.textContent = ""; // clear old error
+                const message = await res.text();
+                errorEl.textContent = "";
 
                 if (!message.includes("Validated ")) {
-                    // API returned an error message
+
                     errorEl.textContent = message;
                 }
             } catch (err) {
