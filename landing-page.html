@@ -23,8 +23,8 @@
                         value
                     })
                 });
-                console.log("--> " + await res.text());
-                const message = await res.text();
+                console.log("--> " + await res);
+                const message = await res;
                 errorEl.textContent = "";
 
                 if (!message.includes("Validated ")) {
