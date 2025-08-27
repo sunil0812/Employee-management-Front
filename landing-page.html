@@ -23,8 +23,8 @@
                         value
                     })
                 });
-                console.log("--> " + await res);
-                const message = await res;
+                console.log("--> " + await res.text());
+                const message = await res.text();
                 errorEl.textContent = "";
 
                 if (!message.includes("Validated ")) {
@@ -730,7 +730,6 @@
     </section>
 
     <script>
-        // Set current year (no external deps)
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
