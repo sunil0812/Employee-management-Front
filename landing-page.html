@@ -9,30 +9,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        document.getElementById("adminPhone").addEventListener("input", function() {
-            this.value = this.value.replace(/\D/g, "");
-        });
-
-        function checkPhone(input) {
-            console.log("Checking phone number...");
-            console.log("Input value:", input.value);
-            const errorEl = document.getElementById("adminPhoneError");
-            const regex = /^[0-9]{10}$/; // exactly 10 digits
-            if (!regex.test(input.value)) {
-                errorEl.textContent = "Not a valid phone number";
-            } else {
-                errorEl.textContent = "";
-            }
-        }
-
         async function validateField(field, value) {
             if (!value) return;
             const errorEl = document.getElementById(field + "Error");
 
+            // Phone number validation
             if (field === "phone" || field === "companyPhone") {
-                checkPhone(document.getElementById(field));
+                const errorEl = document.getElementById(field + "Error");
+                const regex = /^[0-9]{10}$/;
+                if (!regex.test(value)) {
+                    errorEl.textContent = "Not a valid phone number";
+                    return;
+                } else {
+                    errorEl.textContent = "";
+                }
             }
 
             try {
@@ -634,20 +624,21 @@
             <form class="form-grid " action="# " method="post " novalidate>
                 <!-- Company Details -->
                 <div>
-                    <label for="companyName ">Company Name</label>
+                    <label for="companyName ">Name</label>
                     <input id="companyName " name="companyName " type="text " placeholder="Acme Pvt Ltd " required onblur="validateField('companyName', this.value)" />
                     <p class="hint ">Your registered business or trading name.</p>
                     <p class="error" id="companyNameError"></p>
                 </div>
                 <div>
-                    <label for="companyEmail ">Company Email</label>
+                    <label for="companyEmail ">Email</label>
                     <input id="companyEmail " name="companyEmail " type="email " placeholder="hello@acme.com " inputmode="email " required />
                     <p class="hint ">Use your official domain email for faster verification.</p>
                 </div>
 
                 <div class="company-phone">
-                    <label for="companyPhone ">Company Phone</label>
-                    <input id="companyPhone " name="companyPhone " type="tel " placeholder="+91 98765 43210 " inputmode="tel " pattern="^[+0-9\s-]{8,}$ " />
+                    <label for="companyPhone">Phone</label>
+                    <input id="companyPhone" name="companyPhone" type="tel " placeholder="9876543210 " inputmode="numeric" pattern="^[0-9]{10}$" maxlength="10" required onblur="validateField('companyPhone', this.value)" />
+                    <p class="error" id="companyPhoneError"></p>
                 </div>
                 <fieldset>
                     <label class="sub-heading">Address</label>
@@ -675,19 +666,19 @@
             <label for="adminName " style="font-size: 22px;margin-bottom: 20px;">Admin Details</label>
             <form class="form-admin " action="# " method="post " novalidate>
                 <div>
-                    <label for="adminName ">Admin Name</label>
+                    <label for="adminName ">Name</label>
                     <input id="adminName" name="adminName" type="text " placeholder="Sunil Kumar " required onblur="validateField('adminName', this.value)" />
                     <p class="error" id="adminNameError"></p>
                 </div>
                 <div>
-                    <label for="adminEmail ">Admin Email</label>
+                    <label for="adminEmail ">Email</label>
                     <input id="adminEmail" name="adminEmail" type="email " placeholder="sunil@acme.com " inputmode="email " required onblur="validateField('email', this.value)" />
                     <p class="error" id="emailError"></p>
                 </div>
 
                 <div>
-                    <label for="phone ">Admin Phone</label>
-                    <input id="adminPhone" name="adminPhone" type="tel " placeholder="9876543210 " inputmode="numeric" pattern="^[0-9]{10}$" maxlength="10" required onblur="validateField('phone', this.value)" />
+                    <label for="phone ">Phone</label>
+                    <input id="adminPhone" name="adminPhone" type="tel " placeholder="9876543210 " inputmode="numeric" maxlength="10" required onblur="validateField('phone', this.value)" />
                     <p class="error" id="phoneError"></p>
                 </div>
                 <div>
