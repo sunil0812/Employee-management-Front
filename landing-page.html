@@ -16,6 +16,8 @@
         });
 
         function checkPhone(input) {
+            console.log("Checking phone number...");
+            console.log("Input value:", input.value);
             const errorEl = document.getElementById("adminPhoneError");
             const regex = /^[0-9]{10}$/; // exactly 10 digits
             if (!regex.test(input.value)) {
