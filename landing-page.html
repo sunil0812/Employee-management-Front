@@ -723,19 +723,19 @@
                 <!-- Company Details -->
                 <div>
                     <label for="companyName ">Name</label>
-                    <input id="companyName " name="companyName " type="text " placeholder="Acme Pvt Ltd " required onblur="validateField('companyName', this.value)" />
+                    <input id="companyName" name="companyName " type="text " placeholder="Acme Pvt Ltd " required onblur="validateField('companyName', this.value)" />
                     <p class="hint ">Your registered business or trading name.</p>
                     <p class="error" id="companyNameError"></p>
                 </div>
                 <div>
                     <label for="companyDomain">Domain</label>
-                    <input id="companyDomain " name="companyDomain " type="text " placeholder="Test.com "  required onblur="validateField('companyDomain', this.value)"/>
+                    <input id="companyDomain" name="companyDomain " type="text " placeholder="Test.com"  required onblur="validateField('companyDomain', this.value)"/>
                     <p class="hint ">Use your official domain for faster verification.</p>
                 </div>
 
                 <div class="company-phone">
                     <label for="companyPhone">Phone</label>
-                    <input id="companyPhone" name="companyPhone" type="tel " placeholder="9876543210 " inputmode="numeric" pattern="^[0-9]{10}$" maxlength="10" required onblur="validateField('companyPhone', this.value)" />
+                    <input id="companyPhone" name="companyPhone" type="tel " placeholder="9876543210" inputmode="numeric" pattern="^[0-9]{10}$" maxlength="10" required onblur="validateField('companyPhone', this.value)" />
                     <p class="error" id="companyPhoneError"></p>
                 </div>
                 <fieldset>
@@ -751,7 +751,7 @@
                         </div>
                         <div>
                             <label for="Pin">Pin Code</label>
-                            <input id="Pin" name="companyAddress.pinCode" type="text" placeholder="110011" required />
+                            <input id="Pin" name="companyAddress.pinCode" type="text" maxlength="6" placeholder="110011" required />
                         </div>
                         <div>
                             <label for="Country">Country</label>
@@ -822,7 +822,7 @@
                         </div>
                         <div>
                             <label for="adminPin">Pin Code</label>
-                            <input id="adminPin" name="adminAddress.pinCode" type="text" placeholder="110011" required />
+                            <input id="adminPin" name="adminAddress.pinCode" type="text" maxlength="6" placeholder="110011" required />
                         </div>
                         <div>
                             <label for="adminCountry">Country</label>
