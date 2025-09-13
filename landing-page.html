@@ -264,33 +264,38 @@
         }
         
         .primary-btn {
-            appearance: none;
-            border: 0;
-            cursor: pointer;
-            font-weight: 700;
-            letter-spacing: .2px;
-            background-color: #386aff;
-            padding: .85rem 1.1rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 24px rgba(109, 140, 255, .35);
-            /* Indigo → Blue */
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            background: linear-gradient(270deg, #3b32ee, #044bf0d2, #4184f0);
-            background-size: 600% 600%;
-            /* makes gradient "larger" to allow animation */
-            transition: all 0.3s ease;
-        }
-        
-        .primary-btn:hover {
-            animation: gradient-rotate 5s linear infinite;
-            transform: translateY(-1px);
-            box-shadow: 0 16px 28px rgba(88, 123, 251, 0.4)
-        }
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: .2px;
+    background: linear-gradient(270deg, #3b32ee, #044bf0d2, #4184f0);
+    background-size: 600% 600%;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(109, 140, 255, .35);
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect only when enabled */
+.primary-btn:hover:enabled {
+    animation: gradient-rotate 5s linear infinite;
+    transform: translateY(-1px);
+    box-shadow: 0 16px 28px rgba(88, 123, 251, 0.4);
+}
+
+/* Disabled state */
+.primary-btn:disabled {
+    background: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed;
+    box-shadow: none;
+    animation: none;
+}
         
         @keyframes gradient-rotate {
             0% {
@@ -723,7 +728,7 @@
                 </div>
                 <div>
                     <label for="companyDomain">Domain</label>
-                    <input id="companyDomain " name="companyDomain " type="text " placeholder="Test.com "  required onblur="validateField('companyDomain', this.value)/>
+                    <input id="companyDomain " name="companyDomain " type="text " placeholder="Test.com "  required onblur="validateField('companyDomain', this.value)"/>
                     <p class="hint ">Use your official domain for faster verification.</p>
                 </div>
 
