@@ -631,7 +631,7 @@
                 </div>
                 <div>
                     <label for="companyDomain">Domain</label>
-                    <input id="companyDomain " name="companyDomain " type="text " placeholder="Test.com "  required />
+                    <input id="companyDomain " name="companyDomain " type="text " placeholder="Test.com "  required onblur="validateField('companyDomain', this.value)/>
                     <p class="hint ">Use your official domain for faster verification.</p>
                 </div>
 
