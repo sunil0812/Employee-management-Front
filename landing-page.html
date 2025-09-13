@@ -87,7 +87,7 @@
         const payload = {
             name: document.getElementById("adminName").value,
             email: document.getElementById("adminEmail").value,
-            phone: document.getElementById("adminPhone").value,
+            phone: "+91"+document.getElementById("adminPhone").value,
             gender: document.getElementById("gender").value,
             dob: document.getElementById("dob").value,
             companyDetails: {
@@ -765,12 +765,12 @@
             <form class="form-admin " action="# " method="post " novalidate>
                 <div>
                     <label for="adminName ">Name</label>
-                    <input id="adminName" name="adminName" type="text " placeholder="Sunil Kumar " required onblur="validateField('adminName', this.value)" />
+                    <input id="adminName" name="adminName" type="text " placeholder="Your Name " required onblur="validateField('adminName', this.value)" />
                     <p class="error" id="adminNameError"></p>
                 </div>
                 <div>
                     <label for="adminEmail ">Email</label>
-                    <input id="adminEmail" name="adminEmail" type="email " placeholder="sunil@acme.com " inputmode="email " required onblur="validateField('email', this.value)" />
+                    <input id="adminEmail" name="adminEmail" type="email " placeholder="yourname@host.com " inputmode="email " required onblur="validateField('email', this.value)" />
                     <p class="error" id="emailError"></p>
                 </div>
 
