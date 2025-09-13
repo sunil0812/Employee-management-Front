@@ -9,6 +9,37 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
+
+    // Track required fields
+    const requiredFields = [
+        "companyName", "companyDomain", "companyPhone",
+        "No", "Street", "Pin", "Country",
+        "adminName", "adminEmail", "adminPhone", "dob", "gender",
+        "accountNumber", "ifscCode",
+        "adminNo", "adminStreet", "adminPin", "adminCountry"
+    ];
+
+    function checkFormCompletion() {
+        let allValid = true;
+
+        requiredFields.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+
+            const value = el.value.trim();
+            if (!value) {
+                allValid = false;
+            }
+            // Also check for existing error messages
+            const errorEl = document.getElementById(id + "Error");
+            if (errorEl && errorEl.textContent !== "") {
+                allValid = false;
+            }
+        });
+
+        document.getElementById("registerBtn").disabled = !allValid;
+    }
+
         async function validateField(field, value) {
             if (!value) return;
             const errorEl = document.getElementById(field + "Error");
@@ -46,7 +77,68 @@
             } catch (err) {
                 console.error("Validation failed", err);
             }
+                    checkFormCompletion();
+
         }
+
+        // Register Company and Admin details in backend
+         async function registerCompany() {
+        const payload = {
+            name: document.getElementById("adminName").value,
+            email: document.getElementById("adminEmail").value,
+            phone: document.getElementById("adminPhone").value,
+            gender: document.getElementById("gender").value,
+            dob: document.getElementById("dob").value,
+            companyDetails: {
+                name: document.getElementById("companyName").value,
+                email: document.getElementById("companyEmail").value,
+                phone: document.getElementById("companyPhone").value,
+                address: {
+                    no: document.getElementById("No").value,
+                    street: document.getElementById("Street").value,
+                    pinCode: document.getElementById("Pin").value,
+                    country: document.getElementById("Country").value
+                }
+            },
+            bankDetails: {
+                accountNo: document.getElementById("accountNumber").value,
+                ifscCode: document.getElementById("ifscCode").value
+            },
+            address: {
+                no: document.getElementById("adminNo").value,
+                street: document.getElementById("adminStreet").value,
+                pinCode: document.getElementById("adminPin").value,
+                country: document.getElementById("adminCountry").value
+            }
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/register/admin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) {
+                alert("✅ Company & Admin registered successfully!");
+            } else {
+                const err = await res.text();
+                alert("❌ Registration failed: " + err);
+            }
+        } catch (err) {
+            alert("⚠️ Server error: " + err.message);
+        }
+    }
+
+          window.onload = () => {
+        requiredFields.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener("input", checkFormCompletion);
+                el.addEventListener("blur", () => checkFormCompletion());
+            }
+        });
+        checkFormCompletion();
+    };
     </script>
     <style>
          :root {
@@ -172,33 +264,38 @@
         }
         
         .primary-btn {
-            appearance: none;
-            border: 0;
-            cursor: pointer;
-            font-weight: 700;
-            letter-spacing: .2px;
-            background-color: #386aff;
-            padding: .85rem 1.1rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 24px rgba(109, 140, 255, .35);
-            /* Indigo → Blue */
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            background: linear-gradient(270deg, #3b32ee, #044bf0d2, #4184f0);
-            background-size: 600% 600%;
-            /* makes gradient "larger" to allow animation */
-            transition: all 0.3s ease;
-        }
-        
-        .primary-btn:hover {
-            animation: gradient-rotate 5s linear infinite;
-            transform: translateY(-1px);
-            box-shadow: 0 16px 28px rgba(88, 123, 251, 0.4)
-        }
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: .2px;
+    background: linear-gradient(270deg, #3b32ee, #044bf0d2, #4184f0);
+    background-size: 600% 600%;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(109, 140, 255, .35);
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect only when enabled */
+.primary-btn:hover:enabled {
+    animation: gradient-rotate 5s linear infinite;
+    transform: translateY(-1px);
+    box-shadow: 0 16px 28px rgba(88, 123, 251, 0.4);
+}
+
+/* Disabled state */
+.primary-btn:disabled {
+    background: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed;
+    box-shadow: none;
+    animation: none;
+}
         
         @keyframes gradient-rotate {
             0% {
@@ -631,7 +728,7 @@
                 </div>
                 <div>
                     <label for="companyDomain">Domain</label>
-                    <input id="companyDomain " name="companyDomain " type="text " placeholder="Test.com "  required onblur="validateField('companyDomain', this.value)/>
+                    <input id="companyDomain " name="companyDomain " type="text " placeholder="Test.com "  required onblur="validateField('companyDomain', this.value)"/>
                     <p class="hint ">Use your official domain for faster verification.</p>
                 </div>
 
@@ -734,7 +831,7 @@
                 </fieldset>
                 <div class="actions " style="grid-column:1 / -1 ">
                     <span class="subtle ">Already have an account? <a href="#B:\intelija idea project\Employee\Employee-management-Front\otp.html " style="color:var(--primary) ">Sign in</a></span>
-                    <button class="primary-btn " type="submit ">Create Company</button>
+                    <button id="registerBtn" class="primary-btn " type="submit " disabled onclick="registerCompany()">Create Company</button>
                 </div>
             </form>
         </div>
