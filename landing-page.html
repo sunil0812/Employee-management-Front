@@ -9,6 +9,37 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
+
+    // Track required fields
+    const requiredFields = [
+        "companyName", "companyDomain", "companyPhone",
+        "No", "Street", "Pin", "Country",
+        "adminName", "adminEmail", "adminPhone", "dob", "gender",
+        "accountNumber", "ifscCode",
+        "adminNo", "adminStreet", "adminPin", "adminCountry"
+    ];
+
+    function checkFormCompletion() {
+        let allValid = true;
+
+        requiredFields.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+
+            const value = el.value.trim();
+            if (!value) {
+                allValid = false;
+            }
+            // Also check for existing error messages
+            const errorEl = document.getElementById(id + "Error");
+            if (errorEl && errorEl.textContent !== "") {
+                allValid = false;
+            }
+        });
+
+        document.getElementById("registerBtn").disabled = !allValid;
+    }
+
         async function validateField(field, value) {
             if (!value) return;
             const errorEl = document.getElementById(field + "Error");
@@ -46,7 +77,68 @@
             } catch (err) {
                 console.error("Validation failed", err);
             }
+                    checkFormCompletion();
+
         }
+
+        // Register Company and Admin details in backend
+         async function registerCompany() {
+        const payload = {
+            name: document.getElementById("adminName").value,
+            email: document.getElementById("adminEmail").value,
+            phone: document.getElementById("adminPhone").value,
+            gender: document.getElementById("gender").value,
+            dob: document.getElementById("dob").value,
+            companyDetails: {
+                name: document.getElementById("companyName").value,
+                email: document.getElementById("companyEmail").value,
+                phone: document.getElementById("companyPhone").value,
+                address: {
+                    no: document.getElementById("No").value,
+                    street: document.getElementById("Street").value,
+                    pinCode: document.getElementById("Pin").value,
+                    country: document.getElementById("Country").value
+                }
+            },
+            bankDetails: {
+                accountNo: document.getElementById("accountNumber").value,
+                ifscCode: document.getElementById("ifscCode").value
+            },
+            address: {
+                no: document.getElementById("adminNo").value,
+                street: document.getElementById("adminStreet").value,
+                pinCode: document.getElementById("adminPin").value,
+                country: document.getElementById("adminCountry").value
+            }
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/register/admin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) {
+                alert("✅ Company & Admin registered successfully!");
+            } else {
+                const err = await res.text();
+                alert("❌ Registration failed: " + err);
+            }
+        } catch (err) {
+            alert("⚠️ Server error: " + err.message);
+        }
+    }
+
+          window.onload = () => {
+        requiredFields.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener("input", checkFormCompletion);
+                el.addEventListener("blur", () => checkFormCompletion());
+            }
+        });
+        checkFormCompletion();
+    };
     </script>
     <style>
          :root {
@@ -734,7 +826,7 @@
                 </fieldset>
                 <div class="actions " style="grid-column:1 / -1 ">
                     <span class="subtle ">Already have an account? <a href="#B:\intelija idea project\Employee\Employee-management-Front\otp.html " style="color:var(--primary) ">Sign in</a></span>
-                    <button class="primary-btn " type="submit ">Create Company</button>
+                    <button id="registerBtn" class="primary-btn " type="submit " disabled>Create Company</button>
                 </div>
             </form>
         </div>
