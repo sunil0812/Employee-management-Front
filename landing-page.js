@@ -101,23 +101,35 @@ async function registerCompany() {
         }
     };
 
-    try {
-        const res = await fetch("http://localhost:8080/register/admin", {
+    showLoader("Registering your account...");
+
+    fetch("http://localhost:8080/register/admin", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
+        }).then(response => {
+            hideLoader();
+            if (response.ok) {
+                showToast("Registration successful! Please Complete the Verification process sent to your email", "success");
+            } else {
+                showToast("Registration failed. Please try again.", "error");
+            }
+        })
+        .catch(error => {
+            hideLoader();
+            showToast("Something went wrong. Please try again later.", "error");
         });
-        if (res.ok) {
-            alert("✅ Company & Admin registered successfully!");
-        } else {
-            const err = await res.text();
-            alert("❌ Registration failed: " + err);
-        }
-    } catch (err) {
-        alert("⚠️ Server error: " + err.message);
-    }
+}
+
+// loading screen
+function showLoader(message = "Processing your request...") {
+    let loader = document.getElementById("loader");
+    loader.querySelector("p").innerText = message;
+    loader.classList.remove("hidden");
+}
+
+function hideLoader() {
+    document.getElementById("loader").classList.add("hidden");
 }
 
 window.onload = () => {
