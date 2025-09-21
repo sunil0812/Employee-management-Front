@@ -111,6 +111,9 @@ async function registerCompany() {
             hideLoader();
             if (response.ok) {
                 showToast("Registration successful! Please Complete the Verification process sent to your email", "success");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             } else {
                 showToast("Registration failed. Please try again.", "error");
             }
@@ -132,7 +135,7 @@ function hideLoader() {
     document.getElementById("loader").classList.add("hidden");
 }
 
-function showToast(message, type = "success") {
+function showToast(message, type) {
     const toast = document.getElementById("toast");
 
     // Set message + type
