@@ -132,6 +132,19 @@ function hideLoader() {
     document.getElementById("loader").classList.add("hidden");
 }
 
+function showToast(message, type = "success") {
+    const toast = document.getElementById("toast");
+
+    // Set message + type
+    toast.innerText = message;
+    toast.className = `toast ${type} show`;
+
+    // Auto hide after 4 seconds
+    setTimeout(() => {
+        toast.className = "toast hidden";
+    }, 4000);
+}
+
 window.onload = () => {
     requiredFields.forEach(id => {
         const el = document.getElementById(id);

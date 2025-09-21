@@ -68,11 +68,53 @@
 
 .loader-box {
     text-align: center;
-    background: #fff;
+    background: #ffffff;
     padding: 2rem 3rem;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     animation: fadeIn 0.5s ease-in-out;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.5s, transform 0.5s;
+    z-index: 3000;
+}
+
+
+/* Success */
+
+.toast.success {
+    background-color: #4caf50;
+    color: white;
+}
+
+
+/* Error */
+
+.toast.error {
+    background-color: #f44336;
+    color: white;
+}
+
+
+/* Hidden / show states */
+
+.toast.hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
