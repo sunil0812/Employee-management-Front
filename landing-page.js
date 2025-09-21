@@ -147,6 +147,48 @@ function showToast(message, type) {
         toast.className = "toast hidden";
     }, 15000);
 }
+//  auto-complete address only for INDIA;
+let autocomplete;
+
+function initAutocomplete() {
+    const input = document.getElementById("autocomplete");
+    console.log("init auto complete");
+    autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ["address"], // Only addresses
+        componentRestrictions: { country: "IN" } // Restrict to India (optional)
+    });
+
+    autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+
+        const addressComponents = {
+            street_number: "",
+            route: "",
+            locality: "",
+            administrative_area_level_1: "",
+            country: "",
+            postal_code: ""
+        };
+
+        place.address_components.forEach(component => {
+            const types = component.types;
+            if (types.includes("street_number")) addressComponents.street_number = component.long_name;
+            if (types.includes("route")) addressComponents.route = component.long_name;
+            if (types.includes("locality")) addressComponents.locality = component.long_name;
+            if (types.includes("administrative_area_level_1")) addressComponents.administrative_area_level_1 = component.long_name;
+            if (types.includes("country")) addressComponents.country = component.long_name;
+            if (types.includes("postal_code")) addressComponents.postal_code = component.long_name;
+        });
+
+        // Autofill the fields (read-only)
+        document.getElementById("addressNo").value = addressComponents.street_number;
+        document.getElementById("street").value = addressComponents.route;
+        document.getElementById("city").value = addressComponents.locality;
+        document.getElementById("state").value = addressComponents.administrative_area_level_1;
+        document.getElementById("country").value = addressComponents.country;
+        document.getElementById("pinCode").value = addressComponents.postal_code;
+    });
+}
 
 window.onload = () => {
     requiredFields.forEach(id => {
