@@ -177,15 +177,15 @@
                     <div class="form-grid">
                         <div>
                             <label for="No">No</label>
-                            <input id="No" name="companyAddress.no" type="text" placeholder="45" required />
+                            <input id="No" name="companyAddress.no" type="number" placeholder="45" maxlength="6" required />
                         </div>
                         <div>
                             <label for="Street">Street</label>
-                            <input id="Street" name="companyAddress.street" type="text" placeholder="Baker Street" required />
+                            <input id="Street" name="companyAddress.street" type="text" placeholder="Street Name" required />
                         </div>
                         <div>
                             <label for="Pin">Pin Code</label>
-                            <input id="Pin" name="companyAddress.pinCode" type="text" maxlength="6" placeholder="110011" required />
+                            <input id="Pin" name="companyAddress.pinCode" type="number" maxlength="6" placeholder="110011" required />
                         </div>
                         <div>
                             <label for="Country">Country</label>
@@ -200,6 +200,7 @@
                 <div>
                     <label for="adminName ">Name</label>
                     <input id="adminName" name="adminName" type="text " placeholder="Your Name " required onblur="validateField('adminName', this.value)" />
+                    <p class="hint ">Name with initials.</p>
                     <p class="error" id="adminNameError"></p>
                 </div>
                 <div>
@@ -207,10 +208,10 @@
                     <input id="adminEmail" name="adminEmail" type="email " placeholder="yourname@host.com " inputmode="email " required onblur="validateField('email', this.value)" />
                     <p class="error" id="emailError"></p>
                 </div>
-
                 <div>
                     <label for="phone ">Phone</label>
                     <input id="adminPhone" name="adminPhone" type="tel " placeholder="9876543210 " inputmode="numeric" maxlength="10" required onblur="validateField('phone', this.value)" />
+                    <p class="hint ">Type Your WhatsApp Number</p>
                     <p class="error" id="phoneError"></p>
                 </div>
                 <div>
@@ -223,7 +224,7 @@
                         <option value="">-- Select Gender --</option>
                         <option value="M">Men</option>
                         <option value="F">Female</option>
-                        <option value="O">Other</option>
+                        <option value="O">Others</option>
                     </select>
                 </div>
                 <div>
@@ -248,15 +249,15 @@
                     <div class="form-grid">
                         <div>
                             <label for="adminNo">No</label>
-                            <input id="adminNo" name="adminAddress.no" type="text" placeholder="45" required />
+                            <input id="adminNo" name="adminAddress.no" type="number" placeholder="45" maxlength="6" required />
                         </div>
                         <div>
                             <label for="adminStreet">Street</label>
-                            <input id="adminStreet" name="adminAddress.street" type="text" placeholder="Baker Street" required />
+                            <input id="adminStreet" name="adminAddress.street" type="text" placeholder="Street Name" required />
                         </div>
                         <div>
                             <label for="adminPin">Pin Code</label>
-                            <input id="adminPin" name="adminAddress.pinCode" type="text" maxlength="6" placeholder="110011" required />
+                            <input id="adminPin" name="adminAddress.pinCode" type="number" maxlength="6" placeholder="110011" required />
                         </div>
                         <div>
                             <label for="adminCountry">Country</label>

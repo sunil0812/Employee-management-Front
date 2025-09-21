@@ -142,10 +142,10 @@ function showToast(message, type) {
     toast.innerText = message;
     toast.className = `toast ${type} show`;
 
-    // Auto hide after 4 seconds
+    // Auto hide after 15 seconds
     setTimeout(() => {
         toast.className = "toast hidden";
-    }, 4000);
+    }, 15000);
 }
 
 window.onload = () => {
