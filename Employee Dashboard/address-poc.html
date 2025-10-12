@@ -57,65 +57,27 @@
         <ul id="suggestions" class="suggestions"></ul>
     </div>
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete" async defer></script>
+
+    <input id="address" type="text" placeholder="Type address..." />
+
     <script>
-        const input = document.getElementById("Address");
-        const suggestionBox = document.getElementById("suggestions");
-        const apiKey = "AIzaSyDbQfIpPQbKVVbIFWejnAamRMFlFUCrpEY";
+        function initAutocomplete() {
+            const input = document.getElementById("address");
+            const autocomplete = new google.maps.places.Autocomplete(input, {
+                componentRestrictions: {
+                    country: "in"
+                },
+                fields: ["address_components", "geometry", "formatted_address"],
+            });
 
-        let debounceTimer;
-
-        // Debounce to avoid too many API calls
-        input.addEventListener("input", () => {
-            clearTimeout(debounceTimer);
-            const query = input.value.trim();
-            if (query.length < 3) {
-                suggestionBox.innerHTML = "";
-                return;
-            }
-
-            debounceTimer = setTimeout(() => fetchSuggestions(query), 400);
-        });
-
-        // Fetch suggestions from Places Autocomplete API
-        async function fetchSuggestions(query) {
-            const endpoint = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(query)}&key=${apiKey}&components=country:in`;
-
-            try {
-                const response = await fetch(endpoint);
-                const data = await response.json();
-
-                if (data.status === "OK") {
-                    renderSuggestions(data.predictions);
-                } else {
-                    suggestionBox.innerHTML = `<li style="color:red;">${data.status}</li>`;
-                }
-            } catch (err) {
-                console.error(err);
-                suggestionBox.innerHTML = `<li style="color:red;">Error fetching data</li>`;
-            }
-        }
-
-        // Render list of suggestions
-        function renderSuggestions(predictions) {
-            suggestionBox.innerHTML = "";
-            predictions.forEach((p) => {
-                const li = document.createElement("li");
-                li.textContent = p.description;
-                li.addEventListener("click", () => {
-                    input.value = p.description;
-                    suggestionBox.innerHTML = "";
-                });
-                suggestionBox.appendChild(li);
+            autocomplete.addListener("place_changed", function() {
+                const place = autocomplete.getPlace();
+                console.log("Selected address:", place.formatted_address);
             });
         }
-
-        // Hide suggestions when clicked outside
-        document.addEventListener("click", (e) => {
-            if (!e.target.closest(".form-grid")) {
-                suggestionBox.innerHTML = "";
-            }
-        });
     </script>
+
 </body>
 
 </html>
