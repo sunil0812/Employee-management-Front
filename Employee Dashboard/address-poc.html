@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Address Autocomplete (REST API)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        
+        .form-grid {
+            position: relative;
+            width: 300px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        ul.suggestions {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ccc;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute;
+            width: 100%;
+            background: #fff;
+            z-index: 1000;
+        }
+        
+        ul.suggestions li {
+            padding: 8px;
+            cursor: pointer;
+        }
+        
+        ul.suggestions li:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Address Autocomplete (REST API)</h1>
+
+    <div class="form-grid">
+        <input id="Address" name="Address" type="text" placeholder="Type Your Address..." maxlength="100" autocomplete="off" />
+        <ul id="suggestions" class="suggestions"></ul>
+    </div>
+
+    <script>
+        const input = document.getElementById("Address");
+        const suggestionBox = document.getElementById("suggestions");
+        const apiKey = "AIzaSyDbQfIpPQbKVVbIFWejnAamRMFlFUCrpEY";
+
+        let debounceTimer;
+
+        // Debounce to avoid too many API calls
+        input.addEventListener("input", () => {
+            clearTimeout(debounceTimer);
+            const query = input.value.trim();
+            if (query.length < 3) {
+                suggestionBox.innerHTML = "";
+                return;
+            }
+
+            debounceTimer = setTimeout(() => fetchSuggestions(query), 400);
+        });
+
+        // Fetch suggestions from Places Autocomplete API
+        async function fetchSuggestions(query) {
+            const endpoint = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(query)}&key=${apiKey}&components=country:in`;
+
+            try {
+                const response = await fetch(endpoint);
+                const data = await response.json();
+
+                if (data.status === "OK") {
+                    renderSuggestions(data.predictions);
+                } else {
+                    suggestionBox.innerHTML = `<li style="color:red;">${data.status}</li>`;
+                }
+            } catch (err) {
+                console.error(err);
+                suggestionBox.innerHTML = `<li style="color:red;">Error fetching data</li>`;
+            }
+        }
+
+        // Render list of suggestions
+        function renderSuggestions(predictions) {
+            suggestionBox.innerHTML = "";
+            predictions.forEach((p) => {
+                const li = document.createElement("li");
+                li.textContent = p.description;
+                li.addEventListener("click", () => {
+                    input.value = p.description;
+                    suggestionBox.innerHTML = "";
+                });
+                suggestionBox.appendChild(li);
+            });
+        }
+
+        // Hide suggestions when clicked outside
+        document.addEventListener("click", (e) => {
+            if (!e.target.closest(".form-grid")) {
+                suggestionBox.innerHTML = "";
+            }
+        });
+    </script>
+</body>
+
+</html>
