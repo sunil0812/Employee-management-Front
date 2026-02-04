@@ -98,7 +98,8 @@ async function registerCompany() {
             street: document.getElementById("adminStreet").value,
             pinCode: document.getElementById("adminPin").value,
             country: document.getElementById("adminCountry").value
-        }
+        },
+        additionalInfo: getAdditionalInfo()
     };
 
     showLoader("Registering your account...");
@@ -188,6 +189,76 @@ function initAutocomplete() {
         document.getElementById("country").value = addressComponents.country;
         document.getElementById("pinCode").value = addressComponents.postal_code;
     });
+}
+
+// Additional Info management
+let additionalInfoCounter = 0;
+
+function addAdditionalInfoField() {
+    additionalInfoCounter++;
+    const container = document.getElementById("additionalInfoContainer");
+    
+    const fieldGroup = document.createElement("div");
+    fieldGroup.className = "additional-info-group";
+    fieldGroup.id = `additionalInfo-${additionalInfoCounter}`;
+    fieldGroup.style.cssText = "display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: center; padding: 12px; background: rgba(18, 23, 42, 0.6); border-radius: 10px; border: 1px solid rgba(109, 140, 255, 0.15);";
+    
+    fieldGroup.innerHTML = `
+        <input 
+            type="text" 
+            id="key-${additionalInfoCounter}" 
+            placeholder="Field Name (e.g., Emergency Contact)"
+            style="width: 100%; min-width: 250px; padding: 15px 14px; background: rgba(15, 19, 32, 0.8); border: 1px solid rgba(139, 147, 167, 0.25); border-radius: 8px; font-size: 14px; color: #e8ecf6; transition: all 0.2s ease;"
+            onfocus="this.style.borderColor='rgba(109, 140, 255, 0.5)'; this.style.boxShadow='0 0 0 3px rgba(109, 140, 255, 0.1)';"
+            onblur="this.style.borderColor='rgba(139, 147, 167, 0.25)'; this.style.boxShadow='none';"
+        />
+        <input 
+            type="text" 
+            id="value-${additionalInfoCounter}" 
+            placeholder="Value (e.g., John Doe - 9876543210)"
+            style="width: 100%; min-width: 250px; padding: 15px 14px; background: rgba(15, 19, 32, 0.8); border: 1px solid rgba(139, 147, 167, 0.25); border-radius: 8px; font-size: 14px; color: #e8ecf6; transition: all 0.2s ease;"
+            onfocus="this.style.borderColor='rgba(109, 140, 255, 0.5)'; this.style.boxShadow='0 0 0 3px rgba(109, 140, 255, 0.1)';"
+            onblur="this.style.borderColor='rgba(139, 147, 167, 0.25)'; this.style.boxShadow='none';"
+        />
+        <button 
+            type="button" 
+            onclick="removeAdditionalInfoField(${additionalInfoCounter})" 
+            style="padding: 12px; background: rgba(255, 107, 107, 0.15); color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;"
+            onmouseover="this.style.background='rgba(255, 107, 107, 0.25)'; this.style.transform='scale(1.05)';"
+            onmouseout="this.style.background='rgba(255, 107, 107, 0.15)'; this.style.transform='scale(1)';"
+            title="Remove field"
+        >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+    `;
+    
+    container.appendChild(fieldGroup);
+}
+
+function removeAdditionalInfoField(id) {
+    const fieldGroup = document.getElementById(`additionalInfo-${id}`);
+    if (fieldGroup) {
+        fieldGroup.remove();
+    }
+}
+
+function getAdditionalInfo() {
+    const additionalInfo = {};
+    const container = document.getElementById("additionalInfoContainer");
+    const groups = container.querySelectorAll(".additional-info-group");
+    
+    groups.forEach(group => {
+        const keyInput = group.querySelector('input[id^="key-"]');
+        const valueInput = group.querySelector('input[id^="value-"]');
+        
+        if (keyInput && valueInput && keyInput.value.trim() && valueInput.value.trim()) {
+            additionalInfo[keyInput.value.trim()] = valueInput.value.trim();
+        }
+    });
+    
+    return additionalInfo;
 }
 
 window.onload = () => {

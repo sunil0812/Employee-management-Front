@@ -265,6 +265,21 @@
                         </div>
                     </div>
                 </fieldset>
+
+                <fieldset style="margin-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <label class="sub-heading">Additional Information</label>
+                        <button type="button" class="add-info-btn" onclick="addAdditionalInfoField()" style="display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--primary, #6d8cff); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Add Field
+                        </button>
+                    </div>
+                    <div id="additionalInfoContainer" style="display: flex; flex-direction: column; gap: 15px;">
+                        <!-- Dynamic key-value fields will be added here -->
+                    </div>
+                </fieldset>
                 <div class="actions " style="grid-column:1 / -1 ">
                     <span class="subtle ">Already have an account? <a href="#B:\intelija idea project\Employee\Employee-management-Front\otp.html " style="color:var(--primary) ">Sign in</a></span>
                     <button id="registerBtn" class="primary-btn " type="button" onclick="registerCompany()">Create Company</button>
